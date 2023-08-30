@@ -1,0 +1,93 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://behaviors/Cohesion.gd" type="Script" id=1]
+[ext_resource path="res://behaviors/Alignment.gd" type="Script" id=2]
+[ext_resource path="res://behaviors/Separation.gd" type="Script" id=3]
+[ext_resource path="res://behaviors/Tank Material.tres" type="Material" id=4]
+[ext_resource path="res://behaviors/Avoidance.gd" type="Script" id=5]
+[ext_resource path="res://behaviors/Boid.gd" type="Script" id=6]
+[ext_resource path="res://behaviors/Constrain.gd" type="Script" id=7]
+[ext_resource path="res://behaviors/Wander.gd" type="Script" id=8]
+[ext_resource path="res://addons/Trail/trail_3d.gd" type="Script" id=9]
+
+[sub_resource type="PrismMesh" id=1]
+
+[sub_resource type="BoxShape" id=2]
+
+[sub_resource type="Shader" id=3]
+code = "shader_type spatial;
+
+uniform float emission_strength = 1.0;
+
+void fragment(){
+	
+	ALBEDO = vec3(0.0);
+	EMISSION = COLOR.rgb*emission_strength;
+	ALPHA = COLOR.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = SubResource( 3 )
+shader_param/emission_strength = 2.0
+
+[sub_resource type="Curve" id=6]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.990476, 0.0272727 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=5]
+colors = PoolColorArray( 1, 0, 0, 1, 1, 0, 0, 0 )
+
+[node name="Boid" type="KinematicBody"]
+script = ExtResource( 6 )
+max_speed = 30.0
+max_force = 200
+damping = 0.3
+draw_gizmos = false
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -8.74228e-08, -1, 0, 2, -4.37114e-08, 0, 0, 0 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0 )
+shape = SubResource( 2 )
+
+[node name="Avoidance" type="Node" parent="."]
+script = ExtResource( 5 )
+weight = 50.0
+draw_gizmos = false
+feeler_angle = 60
+feeler_length = 30
+
+[node name="Separation" type="Node" parent="."]
+script = ExtResource( 3 )
+weight = 20.0
+draw_gizmos = false
+
+[node name="Alignment" type="Node" parent="."]
+script = ExtResource( 2 )
+weight = 20.0
+draw_gizmos = false
+
+[node name="Cohesion" type="Node" parent="."]
+script = ExtResource( 1 )
+weight = 8.0
+draw_gizmos = false
+
+[node name="Wander" type="Node" parent="."]
+script = ExtResource( 8 )
+draw_gizmos = false
+
+[node name="Constrain" type="Node" parent="."]
+script = ExtResource( 7 )
+draw_gizmos = false
+radius = 50.0
+
+[node name="trail" type="ImmediateGeometry" parent="."]
+material_override = SubResource( 4 )
+script = ExtResource( 9 )
+segments = 50
+lifetime = 1000.0
+base_width = 1.0
+width_profile = SubResource( 6 )
+color_gradient = SubResource( 5 )

@@ -1,0 +1,373 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://microphone/ui/ui_theme.tres" type="Theme" id=2]
+[ext_resource path="res://microphone/src/live_audio.gd" type="Script" id=5]
+[ext_resource path="res://microphone/src/device_selection.gd" type="Script" id=6]
+[ext_resource path="res://microphone/ui/background.png" type="Texture" id=7]
+
+[sub_resource type="AudioStreamMicrophone" id=1]
+
+[node name="sample_scene" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="background" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 7 )
+expand = true
+
+[node name="content" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 6 )
+
+[node name="mic_input" type="AudioStreamPlayer" parent="content"]
+stream = SubResource( 1 )
+autoplay = true
+bus = "Record"
+
+[node name="recording_player" type="AudioStreamPlayer" parent="content"]
+
+[node name="ui" type="HBoxContainer" parent="content"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 984.0
+margin_bottom = 784.0
+
+[node name="recording_controls" type="VBoxContainer" parent="content/ui"]
+margin_right = 448.0
+margin_bottom = 768.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="device_selection" type="OptionButton" parent="content/ui/recording_controls"]
+margin_right = 448.0
+margin_bottom = 22.0
+text = "Device"
+clip_text = true
+script = ExtResource( 6 )
+
+[node name="sep2" type="HSeparator" parent="content/ui/recording_controls"]
+margin_top = 54.0
+margin_right = 448.0
+margin_bottom = 62.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="record_button" type="Button" parent="content/ui/recording_controls"]
+margin_top = 94.0
+margin_right = 448.0
+margin_bottom = 116.0
+text = "Start recording"
+
+[node name="play_button" type="Button" parent="content/ui/recording_controls"]
+margin_top = 148.0
+margin_right = 448.0
+margin_bottom = 170.0
+text = "Play audio"
+
+[node name="sep" type="HSeparator" parent="content/ui/recording_controls"]
+margin_top = 202.0
+margin_right = 448.0
+margin_bottom = 210.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="save_name" type="LineEdit" parent="content/ui/recording_controls"]
+margin_top = 242.0
+margin_right = 448.0
+margin_bottom = 264.0
+placeholder_text = "Save name"
+
+[node name="save_button" type="Button" parent="content/ui/recording_controls"]
+margin_top = 296.0
+margin_right = 448.0
+margin_bottom = 318.0
+text = "save to wav"
+
+[node name="sep" type="VSeparator" parent="content/ui"]
+margin_left = 480.0
+margin_right = 488.0
+margin_bottom = 768.0
+
+[node name="live_audio" type="VBoxContainer" parent="content/ui"]
+margin_left = 520.0
+margin_right = 968.0
+margin_bottom = 768.0
+size_flags_horizontal = 3
+script = ExtResource( 5 )
+
+[node name="monitors" type="HBoxContainer" parent="content/ui/live_audio"]
+margin_right = 448.0
+margin_bottom = 674.0
+size_flags_vertical = 3
+
+[node name="volume_monitor" type="VBoxContainer" parent="content/ui/live_audio/monitors"]
+margin_right = 141.0
+margin_bottom = 674.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="volume_bar" type="TextureProgress" parent="content/ui/live_audio/monitors/volume_monitor"]
+margin_left = 50.0
+margin_right = 90.0
+margin_bottom = 582.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.01
+fill_mode = 3
+nine_patch_stretch = true
+stretch_margin_left = 20
+stretch_margin_top = 20
+stretch_margin_right = 20
+stretch_margin_bottom = 20
+
+[node name="volume_value" type="Label" parent="content/ui/live_audio/monitors/volume_monitor"]
+margin_top = 614.0
+margin_right = 141.0
+margin_bottom = 628.0
+text = "0.0db"
+align = 1
+
+[node name="volume_label" type="Label" parent="content/ui/live_audio/monitors/volume_monitor"]
+margin_top = 660.0
+margin_right = 141.0
+margin_bottom = 674.0
+text = "Approx. Volume"
+align = 1
+
+[node name="frequency_monitor" type="VBoxContainer" parent="content/ui/live_audio/monitors"]
+margin_left = 173.0
+margin_right = 448.0
+margin_bottom = 674.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="bars" type="VBoxContainer" parent="content/ui/live_audio/monitors/frequency_monitor"]
+margin_right = 275.0
+margin_bottom = 628.0
+size_flags_vertical = 3
+
+[node name="20000" type="HBoxContainer" parent="content/ui/live_audio/monitors/frequency_monitor/bars"]
+margin_right = 275.0
+margin_bottom = 50.0
+size_flags_vertical = 3
+
+[node name="bar" type="ColorRect" parent="content/ui/live_audio/monitors/frequency_monitor/bars/20000"]
+margin_right = 200.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_vertical = 3
+
+[node name="label" type="Label" parent="content/ui/live_audio/monitors/frequency_monitor/bars/20000"]
+margin_left = 232.0
+margin_top = 18.0
+margin_right = 266.0
+margin_bottom = 32.0
+text = "20 kz"
+
+[node name="10000" type="HBoxContainer" parent="content/ui/live_audio/monitors/frequency_monitor/bars"]
+margin_top = 82.0
+margin_right = 275.0
+margin_bottom = 133.0
+size_flags_vertical = 3
+
+[node name="bar" type="ColorRect" parent="content/ui/live_audio/monitors/frequency_monitor/bars/10000"]
+margin_right = 200.0
+margin_bottom = 51.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_vertical = 3
+
+[node name="label" type="Label" parent="content/ui/live_audio/monitors/frequency_monitor/bars/10000"]
+margin_left = 232.0
+margin_top = 18.0
+margin_right = 266.0
+margin_bottom = 32.0
+text = "10 kz"
+
+[node name="5000" type="HBoxContainer" parent="content/ui/live_audio/monitors/frequency_monitor/bars"]
+margin_top = 165.0
+margin_right = 275.0
+margin_bottom = 215.0
+size_flags_vertical = 3
+
+[node name="bar" type="ColorRect" parent="content/ui/live_audio/monitors/frequency_monitor/bars/5000"]
+margin_right = 200.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_vertical = 3
+
+[node name="label" type="Label" parent="content/ui/live_audio/monitors/frequency_monitor/bars/5000"]
+margin_left = 232.0
+margin_top = 18.0
+margin_right = 258.0
+margin_bottom = 32.0
+text = "5 kz"
+
+[node name="2500" type="HBoxContainer" parent="content/ui/live_audio/monitors/frequency_monitor/bars"]
+margin_top = 247.0
+margin_right = 275.0
+margin_bottom = 298.0
+size_flags_vertical = 3
+
+[node name="bar" type="ColorRect" parent="content/ui/live_audio/monitors/frequency_monitor/bars/2500"]
+margin_right = 200.0
+margin_bottom = 51.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_vertical = 3
+
+[node name="label" type="Label" parent="content/ui/live_audio/monitors/frequency_monitor/bars/2500"]
+margin_left = 232.0
+margin_top = 18.0
+margin_right = 270.0
+margin_bottom = 32.0
+text = "2.5 kz"
+
+[node name="1000" type="HBoxContainer" parent="content/ui/live_audio/monitors/frequency_monitor/bars"]
+margin_top = 330.0
+margin_right = 275.0
+margin_bottom = 380.0
+size_flags_vertical = 3
+
+[node name="bar" type="ColorRect" parent="content/ui/live_audio/monitors/frequency_monitor/bars/1000"]
+margin_right = 200.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_vertical = 3
+
+[node name="label" type="Label" parent="content/ui/live_audio/monitors/frequency_monitor/bars/1000"]
+margin_left = 232.0
+margin_top = 18.0
+margin_right = 258.0
+margin_bottom = 32.0
+text = "1 kz"
+
+[node name="500" type="HBoxContainer" parent="content/ui/live_audio/monitors/frequency_monitor/bars"]
+margin_top = 412.0
+margin_right = 275.0
+margin_bottom = 463.0
+size_flags_vertical = 3
+
+[node name="bar" type="ColorRect" parent="content/ui/live_audio/monitors/frequency_monitor/bars/500"]
+margin_right = 200.0
+margin_bottom = 51.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_vertical = 3
+
+[node name="label" type="Label" parent="content/ui/live_audio/monitors/frequency_monitor/bars/500"]
+margin_left = 232.0
+margin_top = 18.0
+margin_right = 275.0
+margin_bottom = 32.0
+text = "500 hz"
+
+[node name="250" type="HBoxContainer" parent="content/ui/live_audio/monitors/frequency_monitor/bars"]
+margin_top = 495.0
+margin_right = 275.0
+margin_bottom = 545.0
+size_flags_vertical = 3
+
+[node name="bar" type="ColorRect" parent="content/ui/live_audio/monitors/frequency_monitor/bars/250"]
+margin_right = 200.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_vertical = 3
+
+[node name="label" type="Label" parent="content/ui/live_audio/monitors/frequency_monitor/bars/250"]
+margin_left = 232.0
+margin_top = 18.0
+margin_right = 275.0
+margin_bottom = 32.0
+text = "250 hz"
+
+[node name="100" type="HBoxContainer" parent="content/ui/live_audio/monitors/frequency_monitor/bars"]
+margin_top = 577.0
+margin_right = 275.0
+margin_bottom = 628.0
+size_flags_vertical = 3
+
+[node name="bar" type="ColorRect" parent="content/ui/live_audio/monitors/frequency_monitor/bars/100"]
+margin_right = 200.0
+margin_bottom = 51.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_vertical = 3
+
+[node name="label" type="Label" parent="content/ui/live_audio/monitors/frequency_monitor/bars/100"]
+margin_left = 232.0
+margin_top = 18.0
+margin_right = 275.0
+margin_bottom = 32.0
+text = "100 hz"
+
+[node name="frequency_label" type="Label" parent="content/ui/live_audio/monitors/frequency_monitor"]
+margin_top = 660.0
+margin_right = 275.0
+margin_bottom = 674.0
+text = "Frequency strength"
+align = 1
+
+[node name="sep" type="HSeparator" parent="content/ui/live_audio"]
+margin_top = 706.0
+margin_right = 448.0
+margin_bottom = 714.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="controls" type="HBoxContainer" parent="content/ui/live_audio"]
+margin_top = 746.0
+margin_right = 448.0
+margin_bottom = 768.0
+
+[node name="samples_control" type="HBoxContainer" parent="content/ui/live_audio/controls"]
+margin_right = 166.0
+margin_bottom = 22.0
+
+[node name="samples_label" type="Label" parent="content/ui/live_audio/controls/samples_control"]
+margin_top = 4.0
+margin_right = 54.0
+margin_bottom = 18.0
+text = "Samples"
+align = 1
+
+[node name="samples_spinbox" type="SpinBox" parent="content/ui/live_audio/controls/samples_control"]
+margin_left = 86.0
+margin_right = 166.0
+margin_bottom = 22.0
+min_value = 1.0
+max_value = 50.0
+value = 10.0
+rounded = true
+
+[node name="amplification_control" type="HBoxContainer" parent="content/ui/live_audio/controls"]
+margin_left = 198.0
+margin_right = 395.0
+margin_bottom = 22.0
+
+[node name="amp_label" type="Label" parent="content/ui/live_audio/controls/amplification_control"]
+margin_top = 4.0
+margin_right = 85.0
+margin_bottom = 18.0
+text = "Amplification"
+align = 1
+
+[node name="amp_spinbox" type="SpinBox" parent="content/ui/live_audio/controls/amplification_control"]
+margin_left = 117.0
+margin_right = 197.0
+margin_bottom = 22.0
+max_value = 5.0
+step = 0.2
+value = 1.0
+
+[connection signal="item_selected" from="content/ui/recording_controls/device_selection" to="content/ui/recording_controls/device_selection" method="_on_device_selection_item_selected"]
+[connection signal="pressed" from="content/ui/recording_controls/record_button" to="content" method="_on_record_button_pressed"]
+[connection signal="pressed" from="content/ui/recording_controls/play_button" to="content" method="_on_play_button_pressed"]
+[connection signal="pressed" from="content/ui/recording_controls/save_button" to="content" method="_on_save_button_pressed"]
+[connection signal="value_changed" from="content/ui/live_audio/controls/amplification_control/amp_spinbox" to="content" method="_on_amp_spinbox_value_changed"]
