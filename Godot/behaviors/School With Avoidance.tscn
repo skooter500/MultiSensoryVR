@@ -54,6 +54,7 @@ shape = SubResource( 12 )
 [node name="ARVROrigin" type="ARVROrigin" parent="Player"]
 
 [node name="ARVRCamera" type="ARVRCamera" parent="Player/ARVROrigin"]
+far = 8192.0
 
 [node name="Camera" type="Camera" parent="Player"]
 environment = SubResource( 13 )

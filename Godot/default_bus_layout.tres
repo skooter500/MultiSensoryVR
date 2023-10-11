@@ -1,4 +1,4 @@
-[gd_resource type="AudioBusLayout" load_steps=10 format=2]
+[gd_resource type="AudioBusLayout" load_steps=9 format=2]
 
 [sub_resource type="AudioEffectDistortion" id=4]
 resource_name = "Distortion"
@@ -28,9 +28,6 @@ tap1/delay_ms = 1500.0
 
 [sub_resource type="AudioEffectRecord" id=2]
 resource_name = "Record"
-
-[sub_resource type="AudioEffectSpectrumAnalyzer" id=3]
-resource_name = "SpectrumAnalyzer"
 
 [resource]
 bus/0/volume_db = 6.02
@@ -62,8 +59,6 @@ bus/2/volume_db = 6.02
 bus/2/send = "RecordOutput"
 bus/2/effect/0/effect = SubResource( 2 )
 bus/2/effect/0/enabled = true
-bus/2/effect/1/effect = SubResource( 3 )
-bus/2/effect/1/enabled = true
 bus/3/name = "Creature"
 bus/3/solo = false
 bus/3/mute = false
